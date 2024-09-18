@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Infrastructure.Context;
 
-public class DemoDbContext/*(DbContextOptions<DemoDbContext> options)*/ : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, 
-    ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>/*(options)*/, IDemoDbContext
+public class DemoDbContext(DbContextOptions<DemoDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, 
+    ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>(options), IDemoDbContext
 {
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -20,7 +20,12 @@ public class DemoDbContext/*(DbContextOptions<DemoDbContext> options)*/ : Identi
     {
         optionsBuilder.UseNpgsql("Host=localhost;Username=postgres;Password=root;Database=BookStore");
     }
-    
-    //public DbSet<Product> Products => Set<Product>();
-    //public DbSet<Company> Companies => Set<Company>();
+
+
+    public DbSet<Book> Book => Set<Book>();
+    public DbSet<BookCategory> BookCategory => Set<BookCategory>();
+    public DbSet<BookCategoryBook> BookCategoryBook => Set<BookCategoryBook>();
+    public DbSet<Order> Order => Set<Order>();
+    public DbSet<OrderItem> OrderItem => Set<OrderItem>();
+    public DbSet<CreateOrder> CreateOrders => Set<CreateOrder>();
 }
