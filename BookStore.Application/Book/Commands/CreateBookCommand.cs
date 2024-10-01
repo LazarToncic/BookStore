@@ -1,3 +1,4 @@
+using BookStore.Application.Common.Dto.Author;
 using BookStore.Application.Common.Dto.Book;
 using BookStore.Application.Common.Exceptions;
 using BookStore.Application.Common.Interfaces;
@@ -8,12 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Application.Book.Commands;
 
-public record CreateBookCommand(CreateBookDto CreateBookDto) : IRequest;
+public record CreateBookCommand(CreateBookDto CreateBookDto, List<CreateAuthorDto> CreateAuthorsDto) : IRequest;
 
-public class CreateBookCommandHandler(IDemoDbContext dbContext) : IRequestHandler<CreateBookCommand>
+public class CreateBookCommandHandler(IDemoDbContext dbContext, IAuthorService authorService) : IRequestHandler<CreateBookCommand>
 {
     public async Task Handle(CreateBookCommand request, CancellationToken cancellationToken)
-    {
+    { 
         var existingBook = await dbContext.Book.Where(x => x.Name.Equals(request.CreateBookDto.Name) &&
                                                    x.ReleaseYear.Equals(request.CreateBookDto.ReleaseYear))
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
@@ -25,17 +26,24 @@ public class CreateBookCommandHandler(IDemoDbContext dbContext) : IRequestHandle
         
         dbContext.Book.Add(book);
         await dbContext.SaveChangesAsync(cancellationToken);
+        
+        await AddCategoriesAsync(request.CreateBookDto, book.Id, cancellationToken);
+        await CreateAuthorsAsync(request.CreateAuthorsDto, book.Id, cancellationToken);
+    }
 
-        var bookId = book.Id;
-
+    private async Task AddCategoriesAsync(CreateBookDto dto, Guid bookId, CancellationToken cancellationToken)
+    {
         var categories = new[] 
         { 
-            request.CreateBookDto.BookCategory1, 
-            request.CreateBookDto.BookCategory2, 
-            request.CreateBookDto.BookCategory3, 
-            request.CreateBookDto.BookCategory4 
+            dto.BookCategory1, 
+            dto.BookCategory2, 
+            dto.BookCategory3, 
+            dto.BookCategory4 
         };
 
+        var newCategories = new List<Domain.Entities.BookCategory>();
+        var bookCategoryBooks = new List<BookCategoryBook>();
+        
         foreach (var category in categories)
         {
             if (!string.IsNullOrWhiteSpace(category))
@@ -47,21 +55,38 @@ public class CreateBookCommandHandler(IDemoDbContext dbContext) : IRequestHandle
 
                 if (existingCategory == null)
                 {
-                    var newBook = new Domain.Entities.BookCategory(category);
-                    dbContext.BookCategory.Add(newBook);
-                    await dbContext.SaveChangesAsync(cancellationToken);
-                    
-                    dbContext.BookCategoryBook.Add(new BookCategoryBook(bookId, newBook.Id));
-                    await dbContext.SaveChangesAsync(cancellationToken);
+                    var newCategory = new Domain.Entities.BookCategory(category);
+                    newCategories.Add(newCategory);
+                    bookCategoryBooks.Add(new BookCategoryBook(bookId, newCategory.Id));
                 }
                 else
                 {
-                    dbContext.BookCategoryBook.Add(new BookCategoryBook(bookId, existingCategory.Id));
-                    await dbContext.SaveChangesAsync(cancellationToken);    
+                    bookCategoryBooks.Add(new BookCategoryBook(bookId, existingCategory.Id));
                 }
                 
             }
         }
         
+        if (newCategories.Count > 0)
+        {
+            await dbContext.BookCategory.AddRangeAsync(newCategories, cancellationToken);
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
+
+        await dbContext.BookCategoryBook.AddRangeAsync(bookCategoryBooks, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    private async Task CreateAuthorsAsync(List<CreateAuthorDto> listOfAuthors, Guid bookId, CancellationToken cancellationToken)
+    {
+        var authorIds = await authorService.CreateAuthors(listOfAuthors, cancellationToken);
+
+        foreach (var authorId in authorIds)
+        {
+            dbContext.AuthorsBooks.Add(new AuthorsBooks(authorId, bookId));
+        }
+
+        await dbContext.SaveChangesAsync(cancellationToken);
     }
 } 

@@ -7,14 +7,17 @@ public class Order
     
     public string UserId { get; set; }
 
+    public int TotalPrice { get; set; }
+
     public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     
     public ApplicationUser User { get; set; }
 
-    public Order()
+    public Order(int totalPrice)
     {
         Id = Guid.NewGuid();
-        OrderDate = DateTime.Now;
+        OrderDate = DateTime.UtcNow;
+        TotalPrice = totalPrice;
     }
 
     public Order AddUser(ApplicationUser user)

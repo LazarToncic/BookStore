@@ -21,8 +21,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Author\Queries\" />
       <Folder Include="Auth\Queries\" />
       <Folder Include="BookCategory\Queries\" />
+      <Folder Include="Common\Mappers\Order\" />
+      <Folder Include="Common\Validators\OrderValidators\" />
       <Folder Include="Order\Queries\" />
     </ItemGroup>
 

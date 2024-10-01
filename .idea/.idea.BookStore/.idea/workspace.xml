@@ -10,97 +10,34 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5db37669-f1ed-4a16-aa1a-3ff00a25c24c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Auth/Constants/AuthConstants.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Auth/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Auth/Options/HeaderBasicAuthenticationSchemeOptions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Auth/Schemes/HeaderBasicAuthenticationSchemeHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/ApiBaseController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/AuthController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/BookCategoryController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/BookController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/OrderController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/RoleController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/UserController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/Filters/ApiExceptionFilterAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/WebHooks/BaseWebHook.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Api/WebHooks/BookWebhook.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Auth/Commands/BeginLoginCommand/BeginLoginModelValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Auth/Commands/BeginLoginCommand/CompleteLoginCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Auth/Commands/CompleteLoginCommand/CompleteLoginCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Auth/Commands/CompleteLoginCommand/CompleteLoginModelValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Book/Commands/CreateBookCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Book/Commands/CreateBookCommandValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Book/Queries/GetAllBooksQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Book/Queries/GetAllBooksQueryValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Book/Queries/GetBookDetailsQuery.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/BookCategory/Commands/CreateBookCategoryCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Behaviour/ValidationBehaviour.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Auth/BeginLoginResponseDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Auth/CompleteLoginResponseDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Book/CreateBookDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Book/GetAllBooksQueryResponseDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Book/GetBookDetailsQueryValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Book/GetBookDetailsResponseDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Order/CreateOrderCommandDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/OrderItems/OrderItemDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Pagination/PaginationDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Pagination/PaginationDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Exceptions/BaseException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Exceptions/NotFoundException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Exceptions/ValidationException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Extensions/AesEncryptionExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Extensions/ValidationExtension.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Interfaces/IAuthService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Interfaces/ICurrentUserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Interfaces/IRoleService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Interfaces/IUserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/Book/BookMapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/Order/OrderMapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/OrderItem/OrderItemMapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Validators/BookCategoryValidators/CreateBookCategoryCommandValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Validators/BookValidators/CreateBookDtoValidator.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Configuration/AesEncryptionConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Configuration/HeaderBasicAuthConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Constants/AuthorizationConstants.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Order/Commands/CreateOrderCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Roles/Commands/CreateRoleCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Application/Users/Commands/CreateUserCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Common/Extensions/SerializerExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/Book.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/BookCategory.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/BookCategoryBook.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/BookWithItsCategories.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/CreateOrder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/Order.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/OrderItem.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Auth/Extensions/AuthenticationExtensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Auth/Options/PasswordlessLoginTokenProviderOptions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Auth/Providers/PasswordlessLoginTokenProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Configuration/JwtConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Book/BookConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/BookCategory/BookCategoryConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/BookCategoryBookConfiguration/BookCategoryBookConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Order/OrderConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/OrderItem/OrderItemConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Exceptions/AuthException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Exceptions/InfrastructureException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Identity/ApplicationUserManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Identity/CurrentUserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Identity/RoleServices.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Identity/UserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Services/AuthService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Api/Controllers/AuthorController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Author/Commands/CreateAuthorCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Author/Commands/Validators/CreateAuthorCommandValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Author/CreateAuthorDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/Author/AuthorMapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Validators/AuthorValidators/CreateAuthorDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Common/Validators/OrderItemValidators/OrderItemDtoValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Application/Order/Commands/Validators/CreateOrderCommandValidator.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/Author.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/AuthorsBooks.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Author/AuthorConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/AuthorsBooksConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BookStore/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BookStore/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookStore.Api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookStore.Api/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Api/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookStore.Api/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Api/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Api/BookStore.Api.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Api/BookStore.Api.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Application/Book/Commands/CreateBookCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Application/Book/Commands/CreateBookCommand.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BookStore.Application/BookStore.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Application/BookStore.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Book/CreateBookDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Application/Common/Dto/Book/CreateBookDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BookStore.Application/Common/Interfaces/IDemoDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Application/Common/Interfaces/IDemoDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookStore.Domain/Entities/ApplicationUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/ApplicationUser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/Order/OrderMapper.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/OrderItem/OrderItemMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Application/Common/Mappers/OrderItem/OrderItemMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Application/Order/Commands/CreateOrderCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Application/Order/Commands/CreateOrderCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Domain/Entities/Book.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/Book.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Domain/Entities/CreateOrder.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Domain/Entities/Order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/Order.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Domain/Entities/OrderItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Domain/Entities/OrderItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BookStore.Infrastructure/BookStore.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Infrastructure/BookStore.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BookStore.Infrastructure/Context/DemoDbContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Context/DemoDbContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookStore.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Identity/ApplicationUserConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Identity/ApplicationUserConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Book/BookConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BookStore.Infrastructure/Domain/Book/BookConfiguration.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,6 +74,9 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/78c860a4a0696d27b2942ef6996b8ceec84aec6b56a4221bd8ce81cc42954d/RequestHandlerWrapper.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -147,7 +87,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.BookStore.Api: IIS Express.executor": "Debug",
+    ".NET Launch Settings Profile.BookStore.Api: IIS Express.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
@@ -225,6 +165,11 @@
       <workItem from="1726401678597" duration="20947000" />
       <workItem from="1726478172814" duration="21792000" />
       <workItem from="1726558770166" duration="19708000" />
+      <workItem from="1726641006384" duration="138000" />
+      <workItem from="1726647274513" duration="139000" />
+      <workItem from="1727164202086" duration="1334000" />
+      <workItem from="1727452413429" duration="6566000" />
+      <workItem from="1727518361511" duration="11929000" />
     </task>
     <task id="LOCAL-00001" summary="Initial">
       <option name="closed" value="true" />
@@ -234,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1726316429387</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary=".">
+      <option name="closed" value="true" />
+      <created>1726641127127</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1726641127127</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -245,7 +198,8 @@
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Initial" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial" />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

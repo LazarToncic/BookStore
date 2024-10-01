@@ -27,5 +27,6 @@ public class DemoDbContext(DbContextOptions<DemoDbContext> options) : IdentityDb
     public DbSet<BookCategoryBook> BookCategoryBook => Set<BookCategoryBook>();
     public DbSet<Order> Order => Set<Order>();
     public DbSet<OrderItem> OrderItem => Set<OrderItem>();
-    public DbSet<CreateOrder> CreateOrders => Set<CreateOrder>();
+    public DbSet<Author> Authors => Set<Author>();
+    public DbSet<AuthorsBooks> AuthorsBooks => Set<AuthorsBooks>();
 }
