@@ -3,4 +3,4 @@ using BookStore.Domain.Entities;
 
 namespace BookStore.Application.Common.Dto.Order;
 
-public record CreateOrderCommandDto(Guid UserId, List<OrderItemDto> Items);
+public record CreateOrderCommandDto(List<OrderItemDto> Items);

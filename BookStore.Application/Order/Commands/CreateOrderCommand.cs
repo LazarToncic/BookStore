@@ -8,16 +8,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookStore.Application.Order.Commands;
 
-public record CreateOrderCommand(CreateOrderCommandDto OrderDto) : IRequest; // validator se ne registruje
+public record CreateOrderCommand(CreateOrderCommandDto OrderDto) : IRequest;
 
-public class CreateOrderCommandHandler(IDemoDbContext dbContext) : IRequestHandler<CreateOrderCommand>
+public class CreateOrderCommandHandler(IDemoDbContext dbContext, ICurrentUserService currentUserService) : IRequestHandler<CreateOrderCommand>
 {
     public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        //ne bi trebao da se salje userId nego da se vidi dal si ulogovan i onda samo da se izvuce iz CurrentUserService
+        var requestingUserId = currentUserService.GetCurrentUser();
 
         var user = await dbContext.Users
-            .Where(x => x.Id.Equals(request.OrderDto.UserId.ToString()))
+            .Where(x => x.Id.Equals(requestingUserId))
             .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (user == null)

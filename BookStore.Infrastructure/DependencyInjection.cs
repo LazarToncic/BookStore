@@ -34,8 +34,7 @@ public static class DependencyInjection
             .AddRoleManager<RoleManager<ApplicationRole>>()
             .AddUserManager<ApplicationUserManager>()
             .AddEntityFrameworkStores<DemoDbContext>()
-            .AddDefaultTokenProviders()
-            .AddPasswordlessLoginTokenProvider();
+            .AddDefaultTokenProviders();
 
         services.AddScoped<IDemoDbContext>(provider => provider.GetRequiredService<DemoDbContext>());
         services.AddScoped<IAuthService, AuthService>();

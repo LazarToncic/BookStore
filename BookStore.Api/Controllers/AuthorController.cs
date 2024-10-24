@@ -1,8 +1,10 @@
 using BookStore.Application.Author.Commands;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore.Api.Controllers;
 
+[Authorize(Roles = "Employee,Owner,StoreManager")]
 public class AuthorController : ApiBaseController
 {
     [HttpPost]

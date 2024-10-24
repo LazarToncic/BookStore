@@ -1,92 +1,88 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using BookStore.Application.Common.Dto.Auth;
 using BookStore.Application.Common.Interfaces;
-using BookStore.Infrastructure.Configuration;
+using BookStore.Domain.Entities;
+using BookStore.Infrastructure.Exceptions;
 using BookStore.Infrastructure.Identity;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Infrastructure.Services;
 
-public class AuthService(ApplicationUserManager userManager, IOptions<JwtConfiguration> jwtOptions) : IAuthService
+public class AuthService(ApplicationUserManager userManager, IPasswordHasher<ApplicationUser> _passwordHasher, SignInManager<ApplicationUser> signInManager) : IAuthService
 {
 
-    private readonly JwtConfiguration _JwtConfiguration = jwtOptions.Value;
-    private const string Purpose = "passwordless-auth";
-    private const string Provider = "PasswordlessLoginTokenProvider";
-    
-    public async Task<BeginLoginResponseDto> BeginLoginAsync(string emailAddress)
+    public async Task RegisterAsync(RegisterDto dto)
     {
-        var user = await userManager.FindByEmailAsync(emailAddress);
-        string? validationToken = null;
+        var existingEmail = await userManager.FindByEmailAsync(dto.Email);
 
-        if (user == null)
-            return new BeginLoginResponseDto(validationToken);
+        if (existingEmail != null)
+            throw new AuthException("User with this email already exists.");
 
-        var token = await userManager.GenerateUserTokenAsync(user, Provider, Purpose);
-        var bytes = Encoding.UTF8.GetBytes($"{token}:{emailAddress}");
-        validationToken = Convert.ToBase64String(bytes);
+        var existingUsername = await userManager.FindByNameAsync(dto.Username);
         
-        //todo send an email with validation token
-        return new BeginLoginResponseDto(validationToken);
-    }
-
-    public async Task<CompleteLoginResponseDto> CompleteLoginAsync(string validationToken)
-    {
-        var (userToken, emailAddress) = ExtractValidationToken(validationToken);
-        var user = await userManager.FindByEmailAsync(emailAddress);
-
-        if (user is not null)
+        if (existingUsername != null)
+            throw new AuthException("User with this username already exists.");
+        
+        var user = new ApplicationUser
         {
-            var isValid = await userManager.VerifyUserTokenAsync(user, Provider, Purpose, userToken);
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Email = dto.Email,
+            UserName = dto.Username,
+            PhoneNumber = dto.PhoneNumber
+        };
 
-            if (!isValid)
-                return new CompleteLoginResponseDto();
+        user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
 
-            await userManager.UpdateSecurityStampAsync(user);
+        try
+        {
+            var result = await userManager.CreateAsync(user);
 
-            var authClaims = new List<Claim>();
-            var roles = new List<string>();
-
-            var rolesFromDb = await userManager.GetRolesAsync(user);
-
-            foreach (var roleFromDb in rolesFromDb)
+            if (!result.Succeeded)
             {
-                roles.Add(roleFromDb);
-                authClaims.Add(new Claim(ClaimTypes.Role, roleFromDb));
+                throw new AuthException("Could not create new user",
+                    new {Errors = result.Errors.ToList()});
             }
 
-            return new CompleteLoginResponseDto(user.Email,
-                roles,
-                new JwtSecurityTokenHandler().WriteToken(GenerateJwtToken(authClaims)));
+            var rolesResult = await userManager.AddToRoleAsync(user, "Customer");
+
+            if (!rolesResult.Succeeded)
+            {
+                await userManager.DeleteAsync(user);
+
+                throw new AuthException("Could not add roles to the user",
+                    new {Errors = rolesResult.Errors.ToList()});
+            }
+        }
+        catch (Exception e)
+        {
+            await userManager.DeleteAsync(user);
+            throw new AuthException("Could not add roles to the user",
+                e);
         }
         
-        return new CompleteLoginResponseDto();
     }
 
-    private JwtSecurityToken GenerateJwtToken(IEnumerable<Claim> authClaims)
+    public async Task<LoginResponseDto> LoginAsync(LoginDto dto)
     {
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_JwtConfiguration.Secret!));
+        var user = await userManager.FindByEmailAsync(dto.EmailOrUsername);
+        
+        if (user == null)
+        {
+            user = await userManager.FindByNameAsync(dto.EmailOrUsername);
+        }
+        
+        if (user == null)
+        {
+            return new LoginResponseDto(false, false);
+        }
+        
+        var result = await signInManager.PasswordSignInAsync(user, dto.Password, dto.RememberMe, lockoutOnFailure: false);
 
-        var token = new JwtSecurityToken(
-                issuer: _JwtConfiguration.ValidIssuer,
-                audience: _JwtConfiguration.ValidAudience,
-                expires: DateTime.Now.AddMinutes(15),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-            );
-
-        return token;
+        return new LoginResponseDto(result.Succeeded, result.IsLockedOut);
     }
 
-    private static Tuple<string, string> ExtractValidationToken(string token)
+    public async Task LogoutAsync()
     {
-        var base64EncodesBytes = Convert.FromBase64String(token);
-        var tokenDetails = Encoding.UTF8.GetString(base64EncodesBytes);
-        var separatorIndex = tokenDetails.IndexOf(':');
-
-        return new Tuple<string, string>(tokenDetails[..separatorIndex], tokenDetails[(separatorIndex + 1)..]);
+        await signInManager.SignOutAsync();
     }
 }

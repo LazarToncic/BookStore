@@ -1,11 +1,8 @@
-using System.Text;
 using BookStore.Api.Auth;
 using BookStore.Api.Filters;
 using BookStore.Application;
 using BookStore.Infrastructure;
-using BookStore.Infrastructure.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,19 +12,37 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddNsiBookStoreAuthentication(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/api/Auth/Login";  // Putanja gde korisnik biva preusmeren ako nije prijavljen
+        options.LogoutPath = "/api/Auth/Logout"; // Putanja za odjavu
+        options.AccessDeniedPath = "/api/Auth/AccessDenied"; // Putanja kada je pristup odbijen - (/api/auth/accessdenied) ovo je default
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // Trajanje sesije
+        options.SlidingExpiration = true; // Produžava sesiju ako je korisnik aktivan
+    });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        corsBuilder  => corsBuilder .AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.AddSecurityDefinition("Bearer",
-        new OpenApiSecurityScheme
-        {
-            Name = "Authorization",
-            Type = SecuritySchemeType.Http,
-            Scheme = JwtBearerDefaults.AuthenticationScheme,
-            BearerFormat = "JWT",
-            In = ParameterLocation.Header,
-            Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n Enter your token below.",
-        });
+    c.AddSecurityDefinition("cookieAuth", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.ApiKey,
+        Name = ".AspNetCore.Cookies",
+        In = ParameterLocation.Cookie,
+        Scheme = "cookieAuth",
+        Description = "ASP.NET Core Identity Cookie Authentication"
+    });
+
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -35,48 +50,32 @@ builder.Services.AddSwaggerGen(c =>
             {
                 Reference = new OpenApiReference
                 {
-                    Id = JwtBearerDefaults.AuthenticationScheme,
-                    Type = ReferenceType.SecurityScheme
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "cookieAuth"
                 }
             },
-            Array.Empty<string>()
+            new string[] { }
         }
     });
 });
 
-var jwtConfiguration = new JwtConfiguration();
-builder.Configuration
-    .GetSection("JwtConfiguration")
-    .Bind(jwtConfiguration);
-
-builder.Services
-    .AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.SaveToken = true;
-        options.RequireHttpsMetadata = false;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidAudience = jwtConfiguration.ValidAudience,
-            ValidIssuer = jwtConfiguration.ValidIssuer,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfiguration.Secret!))
-        };
-    });
-
 var app = builder.Build();
+
+app.UseCors("AllowAll");
+
+app.UseRouting();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Koristi autentifikaciju
+app.UseAuthentication();
+
+// Koristi autorizaciju
+app.UseAuthorization();
 
 app.UseHttpsRedirection();
 app.MapControllers();

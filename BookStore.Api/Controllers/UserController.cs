@@ -6,10 +6,9 @@ namespace BookStore.Api.Controllers;
  
 public class UserController : ApiBaseController
 {
-    //[Authorize]
-    [AllowAnonymous]
+    [Authorize(Roles = "StoreManager,Owner")]
     [HttpPost]
-    public async Task<ActionResult> CreateUser(CreateUserCommand command)
+    public async Task<ActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         await Mediator.Send(command);
         return Ok();

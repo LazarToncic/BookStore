@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using System.Security.Claims;
 using BookStore.Application.Common.Interfaces;
 using BookStore.Application.Constants;
@@ -5,50 +6,21 @@ using Microsoft.AspNetCore.Http;
 
 namespace BookStore.Infrastructure.Identity;
 
-public class CurrentUserService : ICurrentUserService
+public class CurrentUserService(IHttpContextAccessor contextAccessor) : ICurrentUserService
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    
-    public string? UserId { get; private set; }
-    public string? FirstName { get; private set;}
-    public string? LastName { get; private set;}
-    public string? Email { get; private set;}
-    public List<string>? Roles { get; private set; } = new();
-    public bool IsOwner { get; private set;}
-
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    public string GetCurrentUser()
     {
-        _httpContextAccessor = httpContextAccessor;
-        
-        UserId = GetClaimValue(ClaimTypes.NameIdentifier);
-
-        var identity = httpContextAccessor.HttpContext?.User.Identity;
-
-        if (identity is not null && identity.IsAuthenticated)
+        if (contextAccessor.HttpContext == null)
         {
-            var roles = GetRoleClaimValues();
-
-            if (roles?.Count > 0)
-            {
-                Roles.AddRange(roles);
-            }
-
-            Email = GetClaimValue(ClaimTypes.Email);
-            FirstName = GetClaimValue(ClaimTypes.Email);
-            LastName = GetClaimValue(ClaimTypes.Email);
-
-            IsOwner = Roles.Contains(AuthorizationConstants.Owner);
+            throw new AuthenticationException("You need to be logged in");
         }
-    }
 
-    private string? GetClaimValue(string claimType)
-    {
-        return _httpContextAccessor.HttpContext?.User.FindFirst(claimType)?.Value;
-    }
+        var loggedInUser = contextAccessor.HttpContext.User;
+        var requestingUserId = loggedInUser.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    private List<string>? GetRoleClaimValues()
-    {
-        return _httpContextAccessor.HttpContext?.User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(x => x.Value)
-            .ToList();
+        if (requestingUserId == null)
+            throw new Exception("You need to be logged in");
+
+        return requestingUserId;
     }
 }
