@@ -13,6 +13,18 @@ public class OrderConfiguration : IEntityTypeConfiguration<BookStore.Domain.Enti
         builder.Property(o => o.OrderDate)
             .IsRequired();
         
+        builder.Property(o => o.DiscountActive)
+            .IsRequired()
+            .HasDefaultValue(false);
+
+        builder.Property(o => o.DiscountAmount)
+            .IsRequired(false)
+            .HasDefaultValue(null);
+        
+        builder.Property(o => o.OneFreeBookDiscount)
+            .IsRequired()
+            .HasDefaultValue(false);
+        
         builder.HasOne(o => o.User)
             .WithMany(u => u.Orders)
             .HasForeignKey(o => o.UserId)

@@ -21,7 +21,10 @@ public class GetOrdersForSingleUserQueryHandler(IDemoDbContext dbContext, ICurre
         
         var orderDtos = orders.Select(o => new OrderDto(
             OrderDate: o.OrderDate.ToString("yyyy-MM-dd HH:mm:ss"),
-            TotalPrice: o.OrderItems.Sum(oi => oi.Quantity * oi.Price),
+            TotalPrice: o.TotalPrice,
+            DiscountActive: o.DiscountActive,
+            OneFreeBookDiscount: o.OneFreeBookDiscount,
+            DiscountAmount: o.DiscountAmount,
             OrderItems: o.OrderItems.Select(oi => new GetSingleUserOrdersItemsDto(
                 BookName: oi.BookName,
                 Quantity: oi.Quantity,

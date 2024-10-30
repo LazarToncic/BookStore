@@ -1,4 +1,4 @@
-namespace BookStore.Api.Auth.Constants;
+namespace Demo.Api.Auth.Constants;
 
 public static class AuthConstants
 {

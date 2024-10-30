@@ -1,4 +1,3 @@
-using BookStore.Api.Auth;
 using BookStore.Api.Filters;
 using BookStore.Application;
 using BookStore.Infrastructure;
@@ -11,7 +10,6 @@ builder.Services.AddControllers(options => options.Filters.Add<ApiExceptionFilte
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddNsiBookStoreAuthentication(builder.Configuration);
 builder.Services.AddHttpContextAccessor();
 
 

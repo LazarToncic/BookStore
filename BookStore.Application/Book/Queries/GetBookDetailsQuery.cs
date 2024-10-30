@@ -1,12 +1,9 @@
 using BookStore.Application.Common.Dto.Book;
 using BookStore.Application.Common.Exceptions;
-using BookStore.Application.Common.Extensions;
 using BookStore.Application.Common.Interfaces;
 using BookStore.Application.Common.Mappers.Book;
-using BookStore.Application.Configuration;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace BookStore.Application.Book.Queries;
 

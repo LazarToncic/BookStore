@@ -1,6 +1,5 @@
 using BookStore.Application.Common.Interfaces;
 using BookStore.Domain.Entities;
-using BookStore.Infrastructure.Auth.Extensions;
 using BookStore.Infrastructure.Configuration;
 using BookStore.Infrastructure.Context;
 using BookStore.Infrastructure.Identity;
@@ -42,7 +41,7 @@ public static class DependencyInjection
         services.AddScoped<IRoleService, RoleServices>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
         services.AddScoped<IAuthorService, AuthorService>();
-        services.Configure<JwtConfiguration>(configuration.GetSection("JwtConfiguration"));
+        services.AddScoped<ILoyaltyProgramService, LoyaltyProgramService>();
 
         return services;
     }

@@ -10,7 +10,8 @@ namespace BookStore.Application.Order.Commands;
 
 public record CreateOrderCommand(CreateOrderCommandDto OrderDto) : IRequest;
 
-public class CreateOrderCommandHandler(IDemoDbContext dbContext, ICurrentUserService currentUserService) : IRequestHandler<CreateOrderCommand>
+public class CreateOrderCommandHandler(IDemoDbContext dbContext, ICurrentUserService currentUserService, ILoyaltyProgramService loyaltyProgramService) 
+    : IRequestHandler<CreateOrderCommand>
 {
     public async Task Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
@@ -24,15 +25,20 @@ public class CreateOrderCommandHandler(IDemoDbContext dbContext, ICurrentUserSer
             throw new NotFoundException("This user doesnt exist");
 
         var totalPrice = 0;
+        var bookPrices = new List<KeyValuePair<int, int>>();
         
         foreach (var item in request.OrderDto.Items)
         {
             var singleBookPrice = await GetSingleBookPrice(item, cancellationToken);
 
-            totalPrice += singleBookPrice;
+            totalPrice += singleBookPrice * item.Quantity;
+            bookPrices.Add(new KeyValuePair<int, int>(singleBookPrice, item.Quantity));
         }
+
+        var totalPriceWithLoyaltyProgramApplied = await loyaltyProgramService.CreatingOrderLoyaltyProgram(totalPrice, bookPrices, user.Id);
         
-        var order = new Domain.Entities.Order(totalPrice).AddUser(user);
+        var order = totalPriceWithLoyaltyProgramApplied.AddUser(user);
+        
         dbContext.Order.Add(order);
         await dbContext.SaveChangesAsync(cancellationToken);
 

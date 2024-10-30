@@ -29,4 +29,12 @@ public class RoleController : ApiBaseController
         await Mediator.Send(command);
         return Ok();
     }
+    
+    [Authorize(Roles = "Owner,StoreManager")]
+    [HttpPut]
+    public async Task<ActionResult> DemoteToCustomer([FromBody] DemoteRolesToCustomerCommand command)
+    {
+        await Mediator.Send(command);
+        return Ok();
+    }
 }

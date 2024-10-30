@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BookStore.Infrastructure.Services;
 
-public class AuthService(ApplicationUserManager userManager, IPasswordHasher<ApplicationUser> _passwordHasher, SignInManager<ApplicationUser> signInManager) : IAuthService
+public class AuthService(ApplicationUserManager userManager, IPasswordHasher<ApplicationUser> passwordHasher, SignInManager<ApplicationUser> signInManager
+, IDemoDbContext dbContext) : IAuthService
 {
 
     public async Task RegisterAsync(RegisterDto dto)
@@ -31,7 +32,7 @@ public class AuthService(ApplicationUserManager userManager, IPasswordHasher<App
             PhoneNumber = dto.PhoneNumber
         };
 
-        user.PasswordHash = _passwordHasher.HashPassword(user, dto.Password);
+        user.PasswordHash = passwordHasher.HashPassword(user, dto.Password);
 
         try
         {
@@ -52,6 +53,17 @@ public class AuthService(ApplicationUserManager userManager, IPasswordHasher<App
                 throw new AuthException("Could not add roles to the user",
                     new {Errors = rolesResult.Errors.ToList()});
             }
+
+            var loyaltyProgramForRegisteredUser = new LoyaltyProgram
+            {
+                UserId = user.Id,
+                LoyaltyPoints = 0,
+                DiscountPercentage = 0,
+                EnrollmentDate = DateTime.UtcNow
+            };
+
+            dbContext.LoyaltyPrograms.Add(loyaltyProgramForRegisteredUser);
+            await dbContext.SaveChangesAsync(new CancellationToken());
         }
         catch (Exception e)
         {

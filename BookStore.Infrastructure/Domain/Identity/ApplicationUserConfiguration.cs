@@ -6,29 +6,11 @@ namespace BookStore.Infrastructure.Domain.Identity;
 
 public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
 {
-    private const string OwnerId = "4DAF65CB-CC0E-4C81-9183-20097EA81F5A";
     
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.ToTable("Users");
-        
-        var admin = new ApplicationUser
-        {
-            Id = OwnerId,
-            UserName = "ltoncic@gmail.com",
-            NormalizedUserName = "LTONCIC@GMAIL.COM",
-            Email = "ltoncic@gmail.com",
-            NormalizedEmail = "LTONCIC@gmail.com",
-            EmailConfirmed = true,
-            PhoneNumberConfirmed = true,
-            SecurityStamp = new Guid().ToString("D"),
-            FirstName = "Lazar",
-            LastName = "Toncic",
-            ConcurrencyStamp = "c188a435-cfc8-45fd-836c-9a18bb9de405",
-            AccessFailedCount = 0
-        };
-
-        builder.HasData(admin);
+        builder.Property(x => x.Id).ValueGeneratedNever();
 
         builder.HasMany(x => x.Roles)
             .WithOne()
@@ -39,6 +21,11 @@ public class ApplicationUserConfiguration : IEntityTypeConfiguration<Application
         builder.HasMany(u => u.Orders)
             .WithOne(o => o.User)
             .HasForeignKey(o => o.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.HasOne(u => u.LoyaltyProgram)
+            .WithOne(lp => lp.User)
+            .HasForeignKey<BookStore.Domain.Entities.LoyaltyProgram>(lp => lp.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

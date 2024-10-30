@@ -1,12 +1,11 @@
 using System.Security.Authentication;
 using System.Security.Claims;
 using BookStore.Application.Common.Interfaces;
-using BookStore.Application.Constants;
 using Microsoft.AspNetCore.Http;
 
 namespace BookStore.Infrastructure.Identity;
 
-public class CurrentUserService(IHttpContextAccessor contextAccessor) : ICurrentUserService
+public class CurrentUserService(IHttpContextAccessor contextAccessor, IDemoDbContext dbContext) : ICurrentUserService
 {
     public string GetCurrentUser()
     {
@@ -23,4 +22,5 @@ public class CurrentUserService(IHttpContextAccessor contextAccessor) : ICurrent
 
         return requestingUserId;
     }
+    
 }

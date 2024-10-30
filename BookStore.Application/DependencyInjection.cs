@@ -1,6 +1,5 @@
 using System.Reflection;
 using BookStore.Application.Common.Behaviour;
-using BookStore.Application.Configuration;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -19,9 +18,7 @@ public static class DependencyInjection
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-
-        services.Configure<AesEncryptionConfiguration>(configuration.GetSection("AesEncryption"));
-
+        
         return services;
     }
 }

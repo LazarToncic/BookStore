@@ -26,7 +26,7 @@
       <Folder Include="BookCategory\Queries\" />
       <Folder Include="Common\Mappers\Order\" />
       <Folder Include="Common\Validators\OrderValidators\" />
-      <Folder Include="Roles\Commands\Validators\" />
+      <Folder Include="LoyaltyProgram\Queries\" />
     </ItemGroup>
 
 </Project>

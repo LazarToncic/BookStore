@@ -29,4 +29,5 @@ public class DemoDbContext(DbContextOptions<DemoDbContext> options) : IdentityDb
     public DbSet<OrderItem> OrderItem => Set<OrderItem>();
     public DbSet<Author> Authors => Set<Author>();
     public DbSet<AuthorsBooks> AuthorsBooks => Set<AuthorsBooks>();
+    public DbSet<LoyaltyProgram> LoyaltyPrograms => Set<LoyaltyProgram>();
 }

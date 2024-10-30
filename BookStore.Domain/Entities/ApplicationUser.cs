@@ -9,4 +9,5 @@ public class ApplicationUser : IdentityUser
 
     public IList<ApplicationUserRole> Roles { get; } = new List<ApplicationUserRole>();
     public IList<Order> Orders { get; set; } = new List<Order>();
+    public LoyaltyProgram LoyaltyProgram { get; set; }
 }

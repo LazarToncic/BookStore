@@ -8,6 +8,9 @@ public class Order
     public string UserId { get; set; }
 
     public int TotalPrice { get; set; }
+    public bool DiscountActive { get; set; }
+    public bool OneFreeBookDiscount { get; set; }
+    public decimal? DiscountAmount { get; set; }
 
     public IList<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     
@@ -23,6 +26,18 @@ public class Order
     public Order AddUser(ApplicationUser user)
     {
         User = user;
+        return this;
+    }
+
+    public Order AddDiscounts(bool discountActive, decimal? discountAmount, bool oneFreeBookDiscount)
+    {
+        DiscountActive = discountActive;
+        
+        if (discountAmount > 0) 
+            DiscountAmount = discountAmount;
+
+        OneFreeBookDiscount = oneFreeBookDiscount;
+
         return this;
     }
 }
